@@ -53,6 +53,10 @@ def read_10X_Visium(path,
                         load_images=load_images,)
     adata.var_names_make_unique()
 
+    if count_file != 'filtered_feature_bc_matrix.h5':
+        adata_extra = sc.read(os.path.join(path, f'filtered_feature_bc_matrix.h5'))
+        adata.X = adata_extra.X
+
     if library_id is None:
         library_id = list(adata.uns["spatial"].keys())[0]
     if quality == "fulres":
