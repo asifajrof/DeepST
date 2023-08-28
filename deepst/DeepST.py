@@ -23,6 +23,7 @@ from scipy.sparse import issparse, isspmatrix_csr, csr_matrix, spmatrix
 import matplotlib.pyplot as plt
 from scipy import sparse
 from scipy.spatial import distance
+import scipy
 
 from sklearn.linear_model import LinearRegression
 from tqdm import tqdm
@@ -82,6 +83,7 @@ class run():
 			bce_kld_weight = 0.1,
 			domain_weight = 1,
 			use_gpu = True,
+			seed=0
 			):
 		self.save_path = save_path
 		self.pre_epochs = pre_epochs
@@ -105,6 +107,14 @@ class run():
 		self.bce_kld_weight = bce_kld_weight
 		self.domain_weight = domain_weight
 		self.use_gpu = use_gpu
+		self.seed = seed
+
+		# sklearn set seed
+		np.random.seed(seed)
+		# torch set seed
+		torch.manual_seed(seed)
+		# scipy set seed
+		scipy.random.seed(seed)
 
 	def _get_adata(
 		self,
@@ -122,7 +132,7 @@ class run():
 			save_path_image_crop = Path(os.path.join(self.save_path, 'Image_crop', f'{data_name}'))
 			save_path_image_crop.mkdir(parents=True, exist_ok=True)
 			adata = image_crop(adata, save_path=save_path_image_crop)
-			adata = image_feature(adata, pca_components = self.pca_n_comps, cnnType = self.cnnType).extract_image_feat()
+			adata = image_feature(adata, pca_components = self.pca_n_comps, cnnType = self.cnnType, seeds=self.seed).extract_image_feat()
 		elif self.platform == 'MERFISH':
 			adata = read_merfish(os.path.join(data_path, data_name))
 		elif self.platform == 'slideSeq':
