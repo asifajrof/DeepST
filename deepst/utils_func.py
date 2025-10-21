@@ -367,6 +367,7 @@ def ReadStVisium(
     adata.obs = adata.obs.merge(
         tissue_pos, left_on="barcode", right_on="barcode", how="left"
     )
+    adata.obs_names = adata.obs["barcode"]
     adata.obs.drop(columns=["barcode"], inplace=True)
 
     if library_id is None:
