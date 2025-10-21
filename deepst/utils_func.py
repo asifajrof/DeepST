@@ -382,7 +382,7 @@ def ReadStVisium(
         image_candidates = list(data_path_obj.glob("*.tif"))
         img_path = image_candidates[0]
     elif quality in ["hires", "lowres"]:
-        img_path = os.path.join(data_path, "spatial", f"tissue_{quality}.png")
+        img_path = os.path.join(data_path, "spatial", f"tissue_{quality}_image.png")
     img = plt.imread(img_path, 0)
 
     adata.uns["spatial"][library_id]["images"][quality] = img
