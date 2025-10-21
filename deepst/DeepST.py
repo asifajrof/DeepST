@@ -129,7 +129,7 @@ class run():
 				adata = read_10X_Visium(os.path.join(data_path, data_name), count_file=count_file)
 			else:
 				adata = ReadStVisium(
-					data_path=data_path,
+					data_path=os.path.join(data_path, data_name),
 					count_file=count_file,
 					quality="hires"
 				)
