@@ -128,7 +128,11 @@ class run():
 			if self.platform == 'Visium':
 				adata = read_10X_Visium(os.path.join(data_path, data_name), count_file=count_file)
 			else:
-				adata = ReadOldST(os.path.join(data_path, data_name))
+				adata = ReadStVisium(
+					data_path=data_path,
+					count_file=count_file,
+					quality="hires"
+				)
 			save_path_image_crop = Path(os.path.join(self.save_path, 'Image_crop', f'{data_name}'))
 			save_path_image_crop.mkdir(parents=True, exist_ok=True)
 			adata = image_crop(adata, save_path=save_path_image_crop)
